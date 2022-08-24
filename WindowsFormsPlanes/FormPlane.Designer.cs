@@ -33,7 +33,8 @@
             this.buttonDown = new System.Windows.Forms.Button();
             this.buttonLeft = new System.Windows.Forms.Button();
             this.buttonRight = new System.Windows.Forms.Button();
-            this.buttonCreate = new System.Windows.Forms.Button();
+            this.buttonCreateWarPlane = new System.Windows.Forms.Button();
+            this.buttonCreateIstrebitel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlanes)).BeginInit();
             this.SuspendLayout();
             // 
@@ -94,22 +95,33 @@
             this.buttonRight.UseVisualStyleBackColor = true;
             this.buttonRight.Click += new System.EventHandler(this.buttonMove_Click);
             // 
-            // buttonCreate
+            // buttonCreateWarPlane
             // 
-            this.buttonCreate.Location = new System.Drawing.Point(12, 12);
-            this.buttonCreate.Name = "buttonCreate";
-            this.buttonCreate.Size = new System.Drawing.Size(90, 45);
-            this.buttonCreate.TabIndex = 5;
-            this.buttonCreate.Text = "Создать";
-            this.buttonCreate.UseVisualStyleBackColor = true;
-            this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
+            this.buttonCreateWarPlane.Location = new System.Drawing.Point(211, 12);
+            this.buttonCreateWarPlane.Name = "buttonCreateWarPlane";
+            this.buttonCreateWarPlane.Size = new System.Drawing.Size(220, 45);
+            this.buttonCreateWarPlane.TabIndex = 6;
+            this.buttonCreateWarPlane.Text = "Создать военный самолет";
+            this.buttonCreateWarPlane.UseVisualStyleBackColor = true;
+            this.buttonCreateWarPlane.Click += new System.EventHandler(this.buttonCreateWarPlane_Click);
+            // 
+            // buttonCreateIstrebitel
+            // 
+            this.buttonCreateIstrebitel.Location = new System.Drawing.Point(12, 12);
+            this.buttonCreateIstrebitel.Name = "buttonCreateIstrebitel";
+            this.buttonCreateIstrebitel.Size = new System.Drawing.Size(193, 45);
+            this.buttonCreateIstrebitel.TabIndex = 7;
+            this.buttonCreateIstrebitel.Text = "Создать истребитель";
+            this.buttonCreateIstrebitel.UseVisualStyleBackColor = true;
+            this.buttonCreateIstrebitel.Click += new System.EventHandler(this.buttonCreateIstrebitel_Click);
             // 
             // FormPlane
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(882, 453);
-            this.Controls.Add(this.buttonCreate);
+            this.Controls.Add(this.buttonCreateIstrebitel);
+            this.Controls.Add(this.buttonCreateWarPlane);
             this.Controls.Add(this.buttonRight);
             this.Controls.Add(this.buttonLeft);
             this.Controls.Add(this.buttonDown);
@@ -130,7 +142,8 @@
         private System.Windows.Forms.Button buttonDown;
         private System.Windows.Forms.Button buttonLeft;
         private System.Windows.Forms.Button buttonRight;
-        private System.Windows.Forms.Button buttonCreate;
+        private System.Windows.Forms.Button buttonCreateWarPlane;
+        private System.Windows.Forms.Button buttonCreateIstrebitel;
     }
 }
 

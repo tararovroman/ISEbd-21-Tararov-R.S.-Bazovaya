@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace WindowsFormsPlanes
 {
-    internal static class Program
+    static class Program
     {
         /// <summary>
         /// Главная точка входа для приложения.
@@ -16,7 +16,7 @@ namespace WindowsFormsPlanes
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormPlane());
+            Application.Run(new FormParking());
         }
     }
 }

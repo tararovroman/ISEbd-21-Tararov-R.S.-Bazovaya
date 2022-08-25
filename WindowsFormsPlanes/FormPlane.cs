@@ -23,13 +23,23 @@ namespace WindowsFormsPlanes
         }
 
         /// <summary>
+        /// Передача самолета на форму
+        /// </summary>
+        /// <param name="plane"></param>
+        public void SetPlane(ITransport plane)
+        {
+            this.plane = plane;
+            Draw();
+        }
+
+        /// <summary>
         /// Метод отрисовки самолета
         /// </summary>
         private void Draw()
         {
             Bitmap bmp = new Bitmap(pictureBoxPlanes.Width, pictureBoxPlanes.Height);
             Graphics gr = Graphics.FromImage(bmp);
-            plane.DrawTransport(gr);
+            plane?.DrawTransport(gr);
             pictureBoxPlanes.Image = bmp;
         }
 

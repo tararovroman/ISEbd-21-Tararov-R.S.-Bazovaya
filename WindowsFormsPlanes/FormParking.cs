@@ -91,60 +91,6 @@ namespace WindowsFormsPlanes
         }
 
         /// <summary>
-        /// Обработка нажатия кнопки "Припарковать военный самолет"
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void buttonSetWarPlane_Click(object sender, EventArgs e)
-        {
-            if (listBoxParkings.SelectedIndex > -1)
-            {
-                ColorDialog dialog = new ColorDialog();
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    var plane = new WarPlane(100, 1000, dialog.Color);
-                    if (parkingCollection[listBoxParkings.SelectedItem.ToString()] + plane)
-                    {
-                        Draw();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Парковка переполнена");
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Обработка нажатия кнопки "Припарковать истребитель"
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void buttonSetIstrebitel_Click(object sender, EventArgs e)
-        {
-            if (listBoxParkings.SelectedIndex > -1)
-            {
-                ColorDialog dialog = new ColorDialog();
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    ColorDialog dialogDop = new ColorDialog();
-                    if (dialogDop.ShowDialog() == DialogResult.OK)
-                    {
-                        var plane = new Istrebitel(100, 1000, dialog.Color, dialogDop.Color, true, true, true, true);
-                        if (parkingCollection[listBoxParkings.SelectedItem.ToString()] + plane)
-                        {
-                            Draw();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Парковка переполнена");
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// Обработка нажатия кнопки "Забрать"
         /// </summary>
         /// <param name="sender"></param>
@@ -172,6 +118,37 @@ namespace WindowsFormsPlanes
         private void listBoxParkings_SelectedIndexChanged(object sender, EventArgs e)
         {
             Draw();
+        }
+
+        /// <summary>
+        /// Обработка нажатия кнопки "Добавить автомобиль"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonSetPlane_Click(object sender, EventArgs e)
+        {
+            var formPlaneConfig = new FormPlaneConfig();
+            formPlaneConfig.AddEvent(AddPlane);
+            formPlaneConfig.Show();
+        }
+
+        /// <summary>
+        /// Метод добавления машины
+        /// </summary>
+        /// <param name="plane"></param>
+        private void AddPlane(Vehicle plane)
+        {
+            if (plane != null && listBoxParkings.SelectedIndex > -1)
+            {
+                if ((parkingCollection[listBoxParkings.SelectedItem.ToString()]) + plane)
+                {
+                    Draw();
+                }
+                else
+                {
+                    MessageBox.Show("Самолет не удалось поставить");
+                }
+            }
         }
     }
 }

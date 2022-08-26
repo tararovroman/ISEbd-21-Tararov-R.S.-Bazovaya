@@ -6,6 +6,7 @@ using System.Windows.Forms;
 
 namespace WindowsFormsPlanes
 {
+    public delegate void PlaneDelegate(Vehicle plane);
     static class Program
     {
         /// <summary>

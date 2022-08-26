@@ -65,7 +65,6 @@ namespace WindowsFormsPlanes
             Brush dopBrush = new SolidBrush(DopColor);
             Brush brBlack = new SolidBrush(Color.Black);
 
-
             // ракеты
             if (Rockets)
             {
@@ -110,6 +109,16 @@ namespace WindowsFormsPlanes
                 g.FillRectangle(dopBrush, _startPosX + 130, _startPosY + 90, 5, 20);
                 g.FillRectangle(dopBrush, _startPosX + 140, _startPosY + 90, 5, 20);
             }
+
+        }
+
+        /// <summary>
+        /// Смена дополнительного цвета
+        /// </summary>
+        /// <param name="color"></param>
+        public void SetDopColor(Color color)
+        {
+            DopColor = color;
         }
     }
 }

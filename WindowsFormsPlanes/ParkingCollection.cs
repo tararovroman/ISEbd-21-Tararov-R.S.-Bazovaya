@@ -107,7 +107,7 @@ namespace WindowsFormsPlanes
         /// </summary>
         /// <param name="filename">Путь и имя файла</param>
         /// <returns></returns>
-        public bool SaveData(string filename)
+        public void SaveData(string filename)
         {
             if (File.Exists(filename))
             {
@@ -123,25 +123,20 @@ namespace WindowsFormsPlanes
                     ITransport plane = null;
                     for (int i = 0; (plane = level.Value.GetNext(i)) != null; i++)
                     {
-                        if (plane != null)
+                        //Записываем тип самолета
+                        if (plane.GetType().Name == "WarPlane")
                         {
-                            //если место не пустое
-                            //Записываем тип машины
-                            if (plane.GetType().Name == "WarPlane")
-                            {
-                                WriteToFile($"WarPlane{separator}", fs);
-                            }
-                            if (plane.GetType().Name == "Istrebitel")
-                            {
-                                WriteToFile($"Istrebitel{separator}", fs);
-                            }
-                            //Записываемые параметры
-                            WriteToFile(plane + Environment.NewLine, fs);
+                            WriteToFile($"WarPlane{separator}", fs);
                         }
+                        if (plane.GetType().Name == "Istrebitel")
+                        {
+                            WriteToFile($"Istrebitel{separator}", fs);
+                        }
+                        //Записываемые параметры
+                        WriteToFile(plane + Environment.NewLine, fs);
                     }
                 }
             }
-            return true;
         }
 
         /// <summary>
@@ -149,11 +144,11 @@ namespace WindowsFormsPlanes
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public bool LoadData(string filename)
+        public void LoadData(string filename)
         {
             if (!File.Exists(filename))
             {
-                return false;
+                throw new FileNotFoundException();
             }
             string bufferTextFromFile = "";
             using (FileStream fs = new FileStream(filename, FileMode.Open))
@@ -175,7 +170,7 @@ namespace WindowsFormsPlanes
             else
             {
                 //если нет такой записи, то это не те данные
-                return false;
+                throw new Exception("Неверный формат файла");
             }
             Vehicle plane = null;
             string key = string.Empty;
@@ -189,7 +184,6 @@ namespace WindowsFormsPlanes
                     parkingStages.Add(key, new Parking<Vehicle>(pictureWidth, pictureHeight));
                     continue;
                 }
-
                 if (string.IsNullOrEmpty(strs[i]))
                 {
                     continue;
@@ -202,13 +196,11 @@ namespace WindowsFormsPlanes
                 {
                     plane = new Istrebitel(strs[i].Split(separator)[1]);
                 }
-                var result = parkingStages[key] + plane;
-                if (!result)
+                if (!(parkingStages[key] + plane))
                 {
-                    return false;
+                    throw new Exception("Не удалось загрузить самолет в ангар");
                 }
             }
-            return true;
         }
     }
 }

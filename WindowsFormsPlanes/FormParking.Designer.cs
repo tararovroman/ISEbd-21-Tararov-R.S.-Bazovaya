@@ -53,9 +53,9 @@
             // pictureBoxParking
             // 
             this.pictureBoxParking.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pictureBoxParking.Location = new System.Drawing.Point(0, 28);
+            this.pictureBoxParking.Location = new System.Drawing.Point(0, 30);
             this.pictureBoxParking.Name = "pictureBoxParking";
-            this.pictureBoxParking.Size = new System.Drawing.Size(1018, 532);
+            this.pictureBoxParking.Size = new System.Drawing.Size(1018, 530);
             this.pictureBoxParking.TabIndex = 0;
             this.pictureBoxParking.TabStop = false;
             // 
@@ -160,7 +160,7 @@
             this.файлToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1186, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1186, 30);
             this.menuStrip1.TabIndex = 10;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -176,14 +176,14 @@
             // SaveToolStripMenuItem
             // 
             this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
-            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(166, 26);
             this.SaveToolStripMenuItem.Text = "Сохранить";
             this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // DownloadToolStripMenuItem
             // 
             this.DownloadToolStripMenuItem.Name = "DownloadToolStripMenuItem";
-            this.DownloadToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.DownloadToolStripMenuItem.Size = new System.Drawing.Size(166, 26);
             this.DownloadToolStripMenuItem.Text = "Загрузить";
             this.DownloadToolStripMenuItem.Click += new System.EventHandler(this.DownloadToolStripMenuItem_Click);
             // 
@@ -212,7 +212,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormParking";
-            this.Text = "Парковка";
+            this.Text = "Ангар";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxParking)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

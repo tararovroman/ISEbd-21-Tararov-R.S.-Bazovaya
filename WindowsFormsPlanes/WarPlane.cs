@@ -20,6 +20,11 @@ namespace WindowsFormsPlanes
         protected readonly int planeHeight = 170;
 
         /// <summary>
+        /// Разделитель для записи информации по объекту в файл
+        /// </summary>
+        protected readonly char separator = ';';
+
+        /// <summary>
         /// Конструктор
         /// </summary>
         /// <param name="maxSpeed">Максимальная скорость</param>
@@ -30,6 +35,21 @@ namespace WindowsFormsPlanes
             MaxSpeed = maxSpeed;
             Weight = weight;
             MainColor = mainColor;
+        }
+
+        /// <summary>
+        /// Конструктор для загрузки с файла
+        /// </summary>
+        /// <param name="info">Информация по объекту</param>
+        public WarPlane(string info)
+        {
+            string[] strs = info.Split(separator);
+            if (strs.Length == 3)
+            {
+                MaxSpeed = Convert.ToInt32(strs[0]);
+                Weight = Convert.ToInt32(strs[1]);
+                MainColor = Color.FromName(strs[2]);
+            }
         }
 
         /// <summary>
@@ -113,6 +133,11 @@ namespace WindowsFormsPlanes
             g.DrawLine(pen, _startPosX + 50, _startPosY + 90, _startPosX + 30, _startPosY + 100);
             g.DrawLine(pen, _startPosX + 30, _startPosY + 100, _startPosX + 50, _startPosY + 110);
             g.DrawLine(pen, _startPosX + 50, _startPosY + 110, _startPosX + 50, _startPosY + 90);
+        }
+
+        public override string ToString()
+        {
+            return $"{MaxSpeed}{separator}{Weight}{separator}{MainColor.Name}";
         }
     }
 }

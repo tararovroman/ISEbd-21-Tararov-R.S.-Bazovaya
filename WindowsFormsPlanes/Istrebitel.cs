@@ -59,6 +59,26 @@ namespace WindowsFormsPlanes
             Lines = lines;
         }
 
+        /// <summary>
+        /// Конструктор для загрузки с файла
+        /// </summary>
+        /// <param name="info"></param>
+        public Istrebitel(string info) : base(info)
+        {
+            string[] strs = info.Split(separator);
+            if (strs.Length == 8)
+            {
+                MaxSpeed = Convert.ToInt32(strs[0]);
+                Weight = Convert.ToInt32(strs[1]);
+                MainColor = Color.FromName(strs[2]);
+                DopColor = Color.FromName(strs[3]);
+                Rockets = Convert.ToBoolean(strs[4]);
+                Machinegun = Convert.ToBoolean(strs[5]);
+                Turbine = Convert.ToBoolean(strs[6]);
+                Lines = Convert.ToBoolean(strs[7]);
+            }
+        }
+
         public override void DrawTransport(Graphics g)
         {
             Pen pen = new Pen(Color.Black);
@@ -119,6 +139,11 @@ namespace WindowsFormsPlanes
         public void SetDopColor(Color color)
         {
             DopColor = color;
+        }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()}{separator}{DopColor.Name}{separator}{Rockets}{separator}{Machinegun}{separator}{Turbine}{separator}{Lines}";
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,11 @@ namespace WindowsFormsPlanes
         private readonly int pictureHeight;
 
         /// <summary>
+        /// Разделитель для записи информации в файл
+        /// </summary>
+        private readonly char separator = ':';
+
+        /// <summary>
         /// Конструктор
         /// </summary>
         /// <param name="pictureWidth"></param>
@@ -49,7 +55,11 @@ namespace WindowsFormsPlanes
         /// <param name="name">Название парковки</param>
         public void AddParking(string name)
         {
-            if (!parkingStages.ContainsKey(name)) parkingStages.Add(name, new Parking<Vehicle>(pictureWidth, pictureHeight));
+            if (parkingStages.ContainsKey(name))
+            {
+                return;
+            }
+            parkingStages.Add(name, new Parking<Vehicle>(pictureWidth, pictureHeight));
         }
 
         /// <summary>
@@ -58,7 +68,10 @@ namespace WindowsFormsPlanes
         /// <param name="name">Название парковки</param>
         public void DelParking(string name)
         {
-            if (parkingStages.ContainsKey(name)) parkingStages.Remove(name);
+            if (parkingStages.ContainsKey(name))
+            {
+                parkingStages.Remove(name);
+            }
         }
 
         /// <summary>
@@ -76,6 +89,126 @@ namespace WindowsFormsPlanes
                 }
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Метод записи информации в файл
+        /// </summary>
+        /// <param name="text">Строка, которую следует записать</param>
+        /// <param name="stream">Поток для записи</param>
+        private void WriteToFile(string text, FileStream stream)
+        {
+            byte[] info = new UTF8Encoding(true).GetBytes(text);
+            stream.Write(info, 0, info.Length);
+        }
+
+        /// <summary>
+        /// Сохранение информации по самолетах в ангаре в файл
+        /// </summary>
+        /// <param name="filename">Путь и имя файла</param>
+        /// <returns></returns>
+        public bool SaveData(string filename)
+        {
+            if (File.Exists(filename))
+            {
+                File.Delete(filename);
+            }
+            using (FileStream fs = new FileStream(filename, FileMode.Create))
+            {
+                WriteToFile($"ParkingCollection{Environment.NewLine}", fs);
+                foreach (var level in parkingStages)
+                {
+                    //Начинаем парковку
+                    WriteToFile($"Parking{separator}{level.Key}{Environment.NewLine}", fs);
+                    ITransport plane = null;
+                    for (int i = 0; (plane = level.Value.GetNext(i)) != null; i++)
+                    {
+                        if (plane != null)
+                        {
+                            //если место не пустое
+                            //Записываем тип машины
+                            if (plane.GetType().Name == "WarPlane")
+                            {
+                                WriteToFile($"WarPlane{separator}", fs);
+                            }
+                            if (plane.GetType().Name == "Istrebitel")
+                            {
+                                WriteToFile($"Istrebitel{separator}", fs);
+                            }
+                            //Записываемые параметры
+                            WriteToFile(plane + Environment.NewLine, fs);
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Загрузка нформации по самолетам в ангаре из файла
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public bool LoadData(string filename)
+        {
+            if (!File.Exists(filename))
+            {
+                return false;
+            }
+            string bufferTextFromFile = "";
+            using (FileStream fs = new FileStream(filename, FileMode.Open))
+            {
+                byte[] b = new byte[fs.Length];
+                UTF8Encoding temp = new UTF8Encoding(true);
+                while (fs.Read(b, 0, b.Length) > 0)
+                {
+                    bufferTextFromFile += temp.GetString(b);
+                }
+            }
+            bufferTextFromFile = bufferTextFromFile.Replace("\r", "");
+            var strs = bufferTextFromFile.Split('\n');
+            if (strs[0].Contains("ParkingCollection"))
+            {
+                //очищаем записи
+                parkingStages.Clear();
+            }
+            else
+            {
+                //если нет такой записи, то это не те данные
+                return false;
+            }
+            Vehicle plane = null;
+            string key = string.Empty;
+            for (int i = 1; i < strs.Length; ++i)
+            {
+                //идем по считанным записям
+                if (strs[i].Contains("Parking"))
+                {
+                    //начинаем новую парковку
+                    key = strs[i].Split(separator)[1];
+                    parkingStages.Add(key, new Parking<Vehicle>(pictureWidth, pictureHeight));
+                    continue;
+                }
+
+                if (string.IsNullOrEmpty(strs[i]))
+                {
+                    continue;
+                }
+                if (strs[i].Split(separator)[0] == "WarPlane")
+                {
+                    plane = new WarPlane(strs[i].Split(separator)[1]);
+                }
+                else if (strs[i].Split(separator)[0] == "Istrebitel")
+                {
+                    plane = new Istrebitel(strs[i].Split(separator)[1]);
+                }
+                var result = parkingStages[key] + plane;
+                if (!result)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

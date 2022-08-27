@@ -72,12 +72,12 @@ namespace WindowsFormsPlanes
         /// <returns></returns>
         public static bool operator +(Parking<T> p, T plane)
         {
-            if (p._places.Count < p._maxCount)
+            if (p._places.Count >= p._maxCount)
             {
-                p._places.Add(plane);
-                return true;
+                return false;
             }
-            return false;
+            p._places.Add(plane);
+            return true;
         }
 
         /// <summary>
@@ -89,17 +89,13 @@ namespace WindowsFormsPlanes
         /// <returns></returns>
         public static T operator -(Parking<T> p, int index)
         {
-            if (index < 0 || index > p._places.Count)
+            if (index < -1 || index > p._places.Count)
             {
                 return null;
             }
-            if (!p.CheckFreePlace(index))
-            {
-                T plane = p._places[index];
-                p._places.RemoveAt(index);
-                return plane;
-            }
-            return null;
+            T plane = p._places[index];
+            p._places.RemoveAt(index);
+            return plane;
         }
 
         /// <summary>
@@ -131,6 +127,20 @@ namespace WindowsFormsPlanes
                 }
                 g.DrawLine(pen, i * _placeSizeWidth, 0, i * _placeSizeWidth, (pictureHeight / _placeSizeHeight) * _placeSizeHeight);
             }
+        }
+
+        /// <summary>
+        /// Функция получения элементы из списка
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public T GetNext(int index)
+        {
+            if (index < 0 || index >= _places.Count)
+            {
+                return null;
+            }
+            return _places[index];
         }
     }
 }

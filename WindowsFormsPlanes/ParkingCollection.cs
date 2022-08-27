@@ -120,10 +120,9 @@ namespace WindowsFormsPlanes
                 {
                     //Начинаем парковку
                     WriteToFile($"Parking{separator}{level.Key}{Environment.NewLine}", fs);
-                    ITransport plane = null;
-                    for (int i = 0; (plane = level.Value.GetNext(i)) != null; i++)
+                    foreach (ITransport plane in level.Value)
                     {
-                        //Записываем тип самолета
+                        //Записываем тип мшаины
                         if (plane.GetType().Name == "WarPlane")
                         {
                             WriteToFile($"WarPlane{separator}", fs);

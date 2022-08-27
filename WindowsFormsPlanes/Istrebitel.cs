@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
 
@@ -12,7 +13,7 @@ namespace WindowsFormsPlanes
     /// <summary>
     /// Класс отрисовки истребителя
     /// </summary>
-    public class Istrebitel : WarPlane
+    public class Istrebitel : WarPlane, IEquatable<Istrebitel>
     {
         /// <summary>
         /// Дополнительный цвет
@@ -144,6 +145,45 @@ namespace WindowsFormsPlanes
         public override string ToString()
         {
             return $"{base.ToString()}{separator}{DopColor.Name}{separator}{Rockets}{separator}{Machinegun}{separator}{Turbine}{separator}{Lines}";
+        }
+
+        /// <summary>
+        /// Метод интерфейса IEquatable для класса SportCar
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(Istrebitel other)
+        {
+            if (DopColor == other.DopColor && Rockets == other.Rockets && Machinegun == other.Machinegun && 
+                Turbine == other.Turbine && Lines == other.Lines)
+            {
+                return base.Equals(other);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Перегрузка метода от object
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (!(obj is Istrebitel planeObj))
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(planeObj);
+            }
         }
     }
 }
